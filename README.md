@@ -253,7 +253,7 @@ El frontend es la parte del sistema que ve y usa el usuario en el navegador. Se 
 | `/programas` | Listado de programas de formacion |
 | `/programas/create` | Formulario para crear programa |
 
----
+|---------------------------------------------------------------------------------------------------------------------------|
 
 ## Tecnologias utilizadas
 
