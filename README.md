@@ -270,7 +270,7 @@ El frontend es la parte del sistema que ve y usa el usuario en el navegador. Se 
 | `POST /emprendedores/{id}/inscripciones` | Inscribe al emprendedor en un programa de formacion |
 | `DELETE /emprendedores/{id}/inscripciones/{programa}` | Cancela la inscripcion del emprendedor en un programa |
 
-|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+---
 
 ## Tecnologias utilizadas
 
