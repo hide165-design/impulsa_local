@@ -17,11 +17,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        //|-------------------------------------------------------------------------|
         // Crea un usuario de prueba para poder acceder al sistema
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Administrador',
+            'email' => 'admin@unad.co',
+            'password' => bcrypt('admin123'),
         ]);
+
+        //|-------------------------------------------------------------------------|
 
         // Ejecuta los seeders específicos del proyecto en orden
         $this->call([

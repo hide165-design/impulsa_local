@@ -5,9 +5,16 @@ use App\Http\Controllers\EmprendedorController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\ProgramaFormacionController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;      // |-----| añadido
+
+// |-----|---------------------------------------------------------------|
+Route::get('/', [LoginController::class, 'mostrar'])->name('login');
+Route::post('/login', [LoginController::class, 'ingresar']);
+Route::get('/logout', [LoginController::class, 'salir'])->name('logout');
+// |-----|---------------------------------------------------------------|
 
 // Ruta de la página de inicio (bienvenida)
-Route::get('/', function () {
+Route::get('/inicio', function () {
     return view('inicio');
 })->name('inicio');
 
