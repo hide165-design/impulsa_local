@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout_auth')
 
 @section('content')
 <div class="row justify-content-center mt-5">
