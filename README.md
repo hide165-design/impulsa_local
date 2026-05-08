@@ -149,6 +149,7 @@ A continuacion se listan los archivos donde se encuentra todo lo trabajado para 
 
 | Archivo | Descripcion |
 |---|---|
+| `app/Http/Controllers/LoginController.php` | Logica de autenticacion: muestra el formulario de login, valida las credenciales del emprendedor (email + telefono) contra la base de datos dando acceso solo a usuarios ya existentes en la DB |
 | `app/Http/Controllers/EmprendedorController.php` | Logica para listar, ver detalle, crear, editar y eliminar emprendedores. Lee y escribe en la base de datos a traves del modelo Emprendedor |
 | `app/Http/Controllers/ProgramaFormacionController.php` | Logica CRUD completa para programas de formacion. Lee y escribe en la base de datos a traves del modelo ProgramaFormacion |
 | `app/Http/Controllers/InscripcionController.php` | Logica para inscribir emprendedores en programas de formacion y cancelar inscripciones. Trabaja sobre la tabla pivote `emprendedor_programa` |
@@ -165,6 +166,8 @@ A continuacion se listan los archivos donde se encuentra todo lo trabajado para 
 | Archivo | Descripcion |
 |---|---|
 | `resources/views/layout.blade.php` | Plantilla principal (navbar, header y footer comunes a todas las paginas) |
+| `resources/views/layout_auth.blade.php` | Plantilla base para las paginas de autenticacion. Igual al layout principal pero sin el menu de navegacion, para mantener una interfaz limpia en el login |
+| `resources/views/login.blade.php` | Formulario de inicio de sesion con campos de email y contrasena |
 | `resources/views/inicio.blade.php` | Pagina de inicio con descripcion del proyecto y botones de acceso |
 | `resources/views/emprendedores/index.blade.php` | Tabla con el listado de todos los emprendedores |
 | `resources/views/emprendedores/create.blade.php` | Formulario para registrar un nuevo emprendedor |
@@ -214,6 +217,7 @@ El backend es la parte del sistema que corre en el servidor. Se encarga de recib
 | Archivo | Rol | Como funciona |
 |---|---|---|
 | `routes/web.php` | **Enrutador** | Define que URL activa que controlador. Usa `Route::resource()` para generar automaticamente las 7 rutas CRUD (index, create, store, show, edit, update, destroy) y agrega rutas adicionales para inscripciones |
+| `app/Http/Controllers/LoginController.php` | **Controlador** | Gestiona la autenticacion del usuario. `mostrar()` retorna el formulario de login. `ingresar()` valida email y telefono contra la tabla `emprendedores`, guarda el emprendedor en sesion y redirige al inicio |
 | `app/Http/Controllers/EmprendedorController.php` | **Controlador** | Gestiona el CRUD completo de emprendedores conectado a la base de datos. Incluye el metodo `show()` que muestra el detalle del emprendedor con sus programas inscritos |
 | `app/Http/Controllers/ProgramaFormacionController.php` | **Controlador** | Gestiona el CRUD completo de programas de formacion conectado a la base de datos a traves del modelo `ProgramaFormacion` |
 | `app/Http/Controllers/InscripcionController.php` | **Controlador** | Gestiona la inscripcion y cancelacion de inscripciones de emprendedores en programas. Usa la relacion muchos a muchos definida en los modelos |
@@ -243,6 +247,8 @@ El frontend es la parte del sistema que ve y usa el usuario en el navegador. Se 
 | Archivo | Rol | Como funciona |
 |---|---|---|
 | `resources/views/layout.blade.php` | **Plantilla base** | Define la estructura comun de todas las paginas: barra de navegacion, encabezado, area de mensajes de exito y pie de pagina. Las demas vistas la extienden con `@extends('layout')` |
+| `resources/views/layout_auth.blade.php` | **Plantilla base auth** | Define la estructura para las paginas de autenticacion: incluye navbar con solo el logo y el footer comun. |
+| `resources/views/login.blade.php` | **Pagina de login** | Formulario centrado con campos de email y contrasena, bloque de errores y extiende `layout_auth` para mostrarse sin el menu principal |
 | `resources/views/inicio.blade.php` | **Pagina de inicio** | Vista de bienvenida con la descripcion del proyecto y botones de acceso rapido a las dos secciones principales |
 | `resources/views/emprendedores/index.blade.php` | **Listado** | Muestra todos los emprendedores en una tabla con sus datos. Incluye botones de ver inscripciones, editar y eliminar por cada fila. El boton eliminar usa un formulario con metodo DELETE |
 | `resources/views/emprendedores/create.blade.php` | **Formulario de creacion** | Formulario con todos los campos del emprendedor. Usa `@error` para mostrar mensajes de validacion y `old()` para conservar los valores si el formulario es rechazado |
@@ -259,7 +265,9 @@ El frontend es la parte del sistema que ve y usa el usuario en el navegador. Se 
 
 | URL | Descripcion |
 |---|---|
-| `/` | Pagina de inicio |
+| `/` | Formulario de inicio de sesion |
+| `POST /login` | Procesa las credenciales e inicia la sesion del usuario |
+| `/inicio` | Pagina de inicio |
 | `/emprendedores` | Listado de emprendedores |
 | `/emprendedores/create` | Formulario para registrar emprendedor |
 | `/emprendedores/{id}` | Detalle del emprendedor con sus programas inscritos y formulario para inscribirlo en uno nuevo |
